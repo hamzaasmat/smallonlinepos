@@ -1,0 +1,133 @@
+<div class="main-wrapper">
+    <div class="inner-arapper">
+        <div class="cell cell-1">
+            <!-- <input type="text" placeholder="search product ..." class="search-box"> -->
+            <div class="left-panel">
+                <div class="row">
+                    <div class="col-md-3" *ngFor="let i of productsListing">
+                        <div class="product-card" (click)="getProduct(i)">
+                            <div class="img">
+                                <img [src]="i.image" alt="">
+                            </div>
+                            <div class="card-body">
+                                <h3>
+                                    {{i.name}}
+                                </h3>
+                                <small> <strong>Rs. </strong>{{i.price}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="cell cell-2" style="height: 100%;">
+
+            <div class="right-panel">
+                <div class="order-header">
+                    Order Detail
+                </div>
+                <div class="panel-body">
+                    <div class="bill-item" *ngFor="let item of billListing;let i = index">
+                        <div class="upper-content">
+                            <div class="img">
+                                <img [src]="item.image" alt="">
+                            </div>
+                            <h3>
+                                <div>
+                                    <small>
+                                        <strong>Name</strong>
+                                    </small>
+                                </div>
+                                {{item.name}}
+                            </h3>
+                            <h3>
+                                <div>
+                                    <small>
+                                        <strong>Unit Price</strong>
+                                    </small>
+                                </div>
+                                {{item.price}}
+                            </h3>
+                            <button mat-raised-button color="warn" (click)="removeItem(i)" class="btn-remove">
+                                Remove item
+                            </button>
+                            <div class="qty-process">
+                                <button (click)="addQuantity(item)">+</button>
+                                <input type="text" disabled [value]="item.quantity" class="qty-box">
+                                <button (click)="subtractQuantity(item)" [disabled]="item.quantity == 1">-</button>
+                            </div>
+
+
+                        </div>
+                        <div class="lower-content">
+                            <strong>Item Total:</strong> {{item.price * item.quantity}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cell cell-3">
+            <div class="right-panel">
+                <div class="panel-body">
+                    <div class="row" id="print-section">
+                        <div class="col-md-12">
+                            <h3 style="text-align: center;"><strong>Dr. Chiken</strong></h3>
+                            <p class="text-center">
+                                Al-Faisal Town, Lahore
+                            </p>
+                            <p class="text-center">
+                                +92 322 4621288
+                            </p>
+                            <div class="order-header" style="text-align: center;">
+                                Receipt <br>
+                                {{date}}
+                            </div>
+                            <h3 *ngIf="billListing.length == 0" class="text-center mt-4 mb-4">
+                                No item in the order yet <br>
+                                please add an item
+                            </h3>
+                            <table *ngIf="billListing.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Unit Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let i of billListing; let index = index">
+                                        <td>{{i.name}}</td>
+                                        <td>{{i.price}} Rs</td>
+                                        <td>{{i.quantity}}</td>
+                                        <td>{{i.price * i.quantity}} Rs</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h4 class="mt-4"><strong>Grand total:</strong> {{grandTotal}} <strong>Rs</strong></h4>
+                            <br><br>
+                            <p class="text-center">
+                                <small>Thankyou! for shope with us</small>
+                                <br>
+                                <small>For online order call us at <strong>0322 4621288</strong> or visit </small>
+                                <br>
+                                <small><strong>https://www.facebook.com/drchickenfrozenitems/</strong></small>
+                            </p>
+                        </div>
+                    </div>
+
+
+                </div>
+                <button mat-raised-button color="warn" class="btn-print" [useExistingCss]="true"
+                    printSectionId="print-section" ngxPrint [disabled]="billListing.length == 0">Print Receipt</button>
+                <button mat-raised-button color="warn" (click)="billListing = []" class="btn-print mt-2"
+                    [disabled]="billListing.length == 0">Clear
+                    Order</button>
+            </div>
+
+        </div>
+    </div>
+</div>
